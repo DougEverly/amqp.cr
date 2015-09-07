@@ -423,7 +423,7 @@ module AMQP::Protocol
       raise ::IO::EOFError.new if @eof
       count = slice.length
       while count > 0
-        read_bytes = @io.read(slice, count)
+        read_bytes = @io.read(slice)
         if read_bytes == 0
           @eof = true
           return false
@@ -596,7 +596,7 @@ module AMQP::Protocol
      end
 
      def write_timestamp(v: Time)
-       write(v.to_i.to_i64)
+       write(v.epoch.to_i64)
      end
 
      protected def write_field(field)
