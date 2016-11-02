@@ -37,7 +37,7 @@ class AMQP::Broker
         raise Protocol::FrameError.new("unable to obtain the method's content")
       end
       properties, payload = method.content
-       frames << Protocol::HeaderFrame.new(channel, method.id.first, 0_u16, payload.size.to_u64, properties)
+      frames << Protocol::HeaderFrame.new(channel, method.id.first, 0_u16, payload.size.to_u64, properties)
 
       limit = @config.frame_max - Protocol::FRAME_HEADER_SIZE
       while payload && !payload.empty?
@@ -70,7 +70,7 @@ class AMQP::Broker
     end
     @sending = true
 
-    frames.each {|frame| transmit_frame(frame)}
+    frames.each { |frame| transmit_frame(frame) }
   ensure
     @sending = false
   end
@@ -125,13 +125,13 @@ class AMQP::Broker
         logger.error "Invalid frame type received: #{frame}"
       end
     end
-  rescue ex: Errno
+  rescue ex : Errno
     unless ex.errno == Errno::EBADF
       puts ex
       puts ex.backtrace.join("\n")
     end
     close
-  rescue ex: IO::EOFError
+  rescue ex : IO::EOFError
     close
   rescue ex
     puts ex

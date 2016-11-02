@@ -43,8 +43,8 @@ class PQ(T)
 
   protected def self.swim(graph, k)
     k += 1
-    while k > 1 && graph[k/2-1] < graph[k-1]
-      graph.swap(k/2-1, k-1)
+    while k > 1 && graph[k/2 - 1] < graph[k - 1]
+      graph.swap(k/2 - 1, k - 1)
       k = k/2
     end
   end
@@ -54,11 +54,11 @@ class PQ(T)
     k += 1
     while 2*k <= len
       j = 2*k
-      if j < len && graph[j-1] < graph[j]
+      if j < len && graph[j - 1] < graph[j]
         j += 1
       end
-      break if graph[k-1] > graph[j-1]
-      graph.swap(k-1, j-1)
+      break if graph[k - 1] > graph[j - 1]
+      graph.swap(k - 1, j - 1)
       k = j
     end
   end

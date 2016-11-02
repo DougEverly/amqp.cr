@@ -1,7 +1,6 @@
 require "./exchange"
 
 class AMQP::Message
-
   TRANSIENT  = 1_u8
   PERSISTENT = 2_u8
 

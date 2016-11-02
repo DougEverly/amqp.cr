@@ -8,7 +8,7 @@ require "./message"
 # configured in the server or declared at runtime.
 #
 class AMQP::Exchange
-  BUILTIN_TYPES = %w[fanout direct topic headers]
+  BUILTIN_TYPES = %w(fanout direct topic headers)
 
   getter channel, type, name, durable, auto_delete, internal, args
 
@@ -87,7 +87,6 @@ class AMQP::Exchange
     self
   end
 
-
   # Publishes a message.
   #
   # Parameters:
@@ -119,7 +118,7 @@ class AMQP::Exchange
   # "immediate" flag set, or an unroutable message published with the
   # "mandatory" flag set. The reply code and text provide information about the
   # reason that the message was undeliverable.
-  def on_return(&block: UInt16, String, Message ->)
+  def on_return(&block : UInt16, String, Message ->)
     @channel.on_return(&block)
   end
 end

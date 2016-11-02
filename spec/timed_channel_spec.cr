@@ -5,7 +5,7 @@ describe "Timed::Channel" do
   describe "TimerChannel" do
     it "should periodically generate time values" do
       timer = Timed::TimerChannel.new(10.milliseconds)
-      times = (1..2).map{ timer.receive }
+      times = (1..2).map { timer.receive }
       times.size.should eq(2)
       (times.last - times.first).should be >= 10.milliseconds
     end
@@ -26,7 +26,7 @@ describe "Timed::Channel" do
     end
 
     it "should time out" do
-      ch = Timed:: TimedChannel(Bool).new(1)
+      ch = Timed::TimedChannel(Bool).new(1)
       spawn { sleep(0.1); ch.send(true) }
       unless ch.receive(10.milliseconds).nil?
         fail "channel should time out"

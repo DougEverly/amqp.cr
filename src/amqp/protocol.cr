@@ -1,5 +1,4 @@
 module AMQP::Protocol
-
   # 0      1         3             7                  size+7 size+8
   # +------+---------+-------------+  +------------+  +-----------+
   # | type | channel |     size    |  |  payload   |  | frame-end |
@@ -165,45 +164,45 @@ module AMQP::Protocol
 
     def encode(io)
       flags = 0_u16
-      flags = flags | FLAG_CONTENT_TYPE     unless @content_type.empty?
+      flags = flags | FLAG_CONTENT_TYPE unless @content_type.empty?
       flags = flags | FLAG_CONTENT_ENCODING unless @content_encoding.empty?
-      flags = flags | FLAG_HEADERS          unless @headers.empty?
-      flags = flags | FLAG_DELIVERY_MODE    unless @delivery_mode == 0
-      flags = flags | FLAG_PRIORITY         unless @priority == 0
-      flags = flags | FLAG_CORRELATION_ID   unless @correlation_id.empty?
-      flags = flags | FLAG_REPLY_TO         unless @reply_to.empty?
-      flags = flags | FLAG_EXPIRATION       unless @expiration.empty?
-      flags = flags | FLAG_MESSAGE_ID       unless @message_id.empty?
-      flags = flags | FLAG_TIMESTAMP        unless @timestamp.ticks == 0
-      flags = flags | FLAG_TYPE             unless @type.empty?
-      flags = flags | FLAG_USER_ID          unless @user_id.empty?
-      flags = flags | FLAG_APP_ID           unless @app_id.empty?
-      flags = flags | FLAG_RESERVED1        unless @reserved1.empty?
+      flags = flags | FLAG_HEADERS unless @headers.empty?
+      flags = flags | FLAG_DELIVERY_MODE unless @delivery_mode == 0
+      flags = flags | FLAG_PRIORITY unless @priority == 0
+      flags = flags | FLAG_CORRELATION_ID unless @correlation_id.empty?
+      flags = flags | FLAG_REPLY_TO unless @reply_to.empty?
+      flags = flags | FLAG_EXPIRATION unless @expiration.empty?
+      flags = flags | FLAG_MESSAGE_ID unless @message_id.empty?
+      flags = flags | FLAG_TIMESTAMP unless @timestamp.ticks == 0
+      flags = flags | FLAG_TYPE unless @type.empty?
+      flags = flags | FLAG_USER_ID unless @user_id.empty?
+      flags = flags | FLAG_APP_ID unless @app_id.empty?
+      flags = flags | FLAG_RESERVED1 unless @reserved1.empty?
 
       io.write_short(flags)
 
-      io.write_shortstr(@content_type)     unless @content_type.empty?
+      io.write_shortstr(@content_type) unless @content_type.empty?
       io.write_shortstr(@content_encoding) unless @content_encoding.empty?
-      io.write_table(@headers)             unless @headers.empty?
+      io.write_table(@headers) unless @headers.empty?
       io.write_octet(@delivery_mode.to_u8) unless @delivery_mode == 0
-      io.write_octet(@priority.to_u8)      unless @priority == 0
-      io.write_shortstr(@correlation_id)   unless @correlation_id.empty?
-      io.write_shortstr(@reply_to)         unless @reply_to.empty?
-      io.write_shortstr(@expiration)       unless @expiration.empty?
-      io.write_shortstr(@message_id)       unless @message_id.empty?
-      io.write_timestamp(@timestamp)       unless @timestamp.ticks == 0
-      io.write_shortstr(@type)             unless @type.empty?
-      io.write_shortstr(@user_id)          unless @user_id.empty?
-      io.write_shortstr(@app_id)           unless @app_id.empty?
-      io.write_shortstr(@reserved1)        unless @reserved1.empty?
+      io.write_octet(@priority.to_u8) unless @priority == 0
+      io.write_shortstr(@correlation_id) unless @correlation_id.empty?
+      io.write_shortstr(@reply_to) unless @reply_to.empty?
+      io.write_shortstr(@expiration) unless @expiration.empty?
+      io.write_shortstr(@message_id) unless @message_id.empty?
+      io.write_timestamp(@timestamp) unless @timestamp.ticks == 0
+      io.write_shortstr(@type) unless @type.empty?
+      io.write_shortstr(@user_id) unless @user_id.empty?
+      io.write_shortstr(@app_id) unless @app_id.empty?
+      io.write_shortstr(@reserved1) unless @reserved1.empty?
     end
   end
 
   abstract class Frame
-    METHOD    = 1_u8
-    HEADERS   = 2_u8
-    BODY      = 3_u8
-    HEARTBEAT = 8_u8
+    METHOD      =    1_u8
+    HEADERS     =    2_u8
+    BODY        =    3_u8
+    HEARTBEAT   =    8_u8
     FINAL_OCTET = 0xCE_u8
 
     @type : UInt8
@@ -277,7 +276,7 @@ module AMQP::Protocol
     def get_payload
       buf = MemoryIO.new
       buf_io = IO.new(buf)
-      @method.id.each {|v| buf_io.write_short(v)}
+      @method.id.each { |v| buf_io.write_short(v) }
       @method.encode(buf_io)
       buf.to_s.to_slice
     end
@@ -354,7 +353,7 @@ module AMQP::Protocol
   end
 
   class HeartbeatFrame < Frame
-    def initialize()
+    def initialize
       @channel = 0_u16
       @type = HEARTBEAT
     end
@@ -379,12 +378,11 @@ module AMQP::Protocol
   end
 
   class IO
-    @@bigendian : Bool = \
-      begin
-        tmp = 1_u16
-        ptr = pointerof(tmp)
-        ptr[0] == 0_u8 && ptr[1] == 1_u8
-      end
+    @@bigendian : Bool = begin
+      tmp = 1_u16
+      ptr = pointerof(tmp)
+      ptr[0] == 0_u8 && ptr[1] == 1_u8
+    end
 
     getter eof
 
@@ -544,114 +542,114 @@ module AMQP::Protocol
     end
 
     def write(v)
-      slice = Slice.new(pointerof(v) as Pointer(UInt8), sizeof(typeof(v)))
+      slice = Slice.new(pointerof(v).as(Pointer(UInt8)), sizeof(typeof(v)))
       if slice.size > 1 && !@@bigendian
         reverse(slice)
       end
       write(slice)
     end
 
-     def_write(UInt8)
-     def_write(UInt16)
-     def_write(UInt32)
-     def_write(UInt64)
-     def_write(Int16)
-     def_write(Int32)
-     def_write(Int64)
-     def_write(Float32)
-     def_write(Float64)
+    def_write(UInt8)
+    def_write(UInt16)
+    def_write(UInt32)
+    def_write(UInt64)
+    def_write(Int16)
+    def_write(Int32)
+    def_write(Int64)
+    def_write(Float32)
+    def_write(Float64)
 
-     def write_octet(v : UInt8)
-       write(v)
-     end
+    def write_octet(v : UInt8)
+      write(v)
+    end
 
-     def write_octet(v : Char)
-       write(v.ord.to_u8)
-     end
+    def write_octet(v : Char)
+      write(v.ord.to_u8)
+    end
 
-     def write_short(v : UInt16)
-       write(v)
-     end
+    def write_short(v : UInt16)
+      write(v)
+    end
 
-     def write_long(v : UInt32)
-       write(v)
-     end
+    def write_long(v : UInt32)
+      write(v)
+    end
 
-     def write_longlong(v : UInt64)
-       write(v)
-     end
+    def write_longlong(v : UInt64)
+      write(v)
+    end
 
-     def write_shortstr(v : String)
-       len = v.bytesize.to_u8
-       if len < v.bytesize
-         raise ContentTooLarge.new
-       end
-       write(len)
-       @io.print(v)
-     end
+    def write_shortstr(v : String)
+      len = v.bytesize.to_u8
+      if len < v.bytesize
+        raise ContentTooLarge.new
+      end
+      write(len)
+      @io.print(v)
+    end
 
-     def write_longstr(v : String)
-       len = v.bytesize.to_u32
-       write(len)
-       @io.print(v)
-     end
+    def write_longstr(v : String)
+      len = v.bytesize.to_u32
+      write(len)
+      @io.print(v)
+    end
 
-     def write_table(table : Table)
-       buf = MemoryIO.new
-       io = IO.new(buf)
-       table.each do |key, value|
-         io.write_shortstr(key)
-         io.write_field(value)
-       end
-       write_longstr(buf.to_s)
-     end
+    def write_table(table : Table)
+      buf = MemoryIO.new
+      io = IO.new(buf)
+      table.each do |key, value|
+        io.write_shortstr(key)
+        io.write_field(value)
+      end
+      write_longstr(buf.to_s)
+    end
 
-     def write_timestamp(v : Time)
-       write(v.epoch.to_i64)
-     end
+    def write_timestamp(v : Time)
+      write(v.epoch.to_i64)
+    end
 
-     protected def write_field(field)
-       case field
-       when Bool
-         write_octet('t')
-         write_octet(field ? 1_u8 : 0_u8)
-       when UInt8
-         write_octet('b')
-         write(field)
-       when UInt16
-         write_octet('s')
-         write(field)
-       when UInt32
-         write_octet('I')
-         write(field)
-       when UInt64
-         write_octet('l')
-         write(field)
-       when Float32
-         write_octet('f')
-         write(field)
-       when Float64
-         write_octet('d')
-       when String
-         write_octet('S')
-         write_longstr(field)
-       when Array(UInt8)
-         write_octet('x')
-         write(field.size.to_i32)
-         @io.write(Slice.new(field.to_unsafe, field.size))
-       when Array
-         write_octet('A')
-         write(field.size.to_i32)
-         field.each {|v| write_field(v)}
-       when Time
-         write_octet('T')
-         write_timestamp(field)
-       when Hash
-         write_octet('F')
-         write_table(field)
-       else
-         raise FrameError.new("invalid type #{typeof(field)}")
-       end
+    protected def write_field(field)
+      case field
+      when Bool
+        write_octet('t')
+        write_octet(field ? 1_u8 : 0_u8)
+      when UInt8
+        write_octet('b')
+        write(field)
+      when UInt16
+        write_octet('s')
+        write(field)
+      when UInt32
+        write_octet('I')
+        write(field)
+      when UInt64
+        write_octet('l')
+        write(field)
+      when Float32
+        write_octet('f')
+        write(field)
+      when Float64
+        write_octet('d')
+      when String
+        write_octet('S')
+        write_longstr(field)
+      when Array(UInt8)
+        write_octet('x')
+        write(field.size.to_i32)
+        @io.write(Slice.new(field.to_unsafe, field.size))
+      when Array
+        write_octet('A')
+        write(field.size.to_i32)
+        field.each { |v| write_field(v) }
+      when Time
+        write_octet('T')
+        write_timestamp(field)
+      when Hash
+        write_octet('F')
+        write_table(field)
+      else
+        raise FrameError.new("invalid type #{typeof(field)}")
+      end
     end
 
     protected def read_array

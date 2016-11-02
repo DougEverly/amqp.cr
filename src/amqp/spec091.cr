@@ -17,86 +17,69 @@ module AMQP::Protocol
     VALUE = 311
   end
 
-
   class NoConsumers < SoftError
     VALUE = 313
   end
-
 
   class ConnectionForced < HardError
     VALUE = 320
   end
 
-
   class InvalidPath < HardError
     VALUE = 402
   end
-
 
   class AccessRefused < SoftError
     VALUE = 403
   end
 
-
   class NotFound < SoftError
     VALUE = 404
   end
-
 
   class ResourceLocked < SoftError
     VALUE = 405
   end
 
-
   class PreconditionFailed < SoftError
     VALUE = 406
   end
-
 
   class FrameError < HardError
     VALUE = 501
   end
 
-
   class SyntaxError < HardError
     VALUE = 502
   end
-
 
   class CommandInvalid < HardError
     VALUE = 503
   end
 
-
   class ChannelError < HardError
     VALUE = 504
   end
-
 
   class UnexpectedFrame < HardError
     VALUE = 505
   end
 
-
   class ResourceError < HardError
     VALUE = 506
   end
-
 
   class NotAllowed < HardError
     VALUE = 530
   end
 
-
   class NotImplemented < HardError
     VALUE = 540
   end
 
-
   class InternalError < HardError
     VALUE = 541
   end
-
 
   module Connection
     INDEX = 10_u16
@@ -168,7 +151,7 @@ module AMQP::Protocol
 
       getter client_properties, mechanism, response, locale
 
-      def initialize(@client_properties :  Hash(String, AMQP::Protocol::Field), @mechanism : String, @response : String, @locale : String)
+      def initialize(@client_properties : Hash(String, AMQP::Protocol::Field), @mechanism : String, @response : String, @locale : String)
       end
 
       def id
@@ -262,7 +245,7 @@ module AMQP::Protocol
 
       getter response
 
-      def initialize(@response : String )
+      def initialize(@response : String)
       end
 
       def id
@@ -545,7 +528,7 @@ module AMQP::Protocol
     class CloseOk < Method
       INDEX = 51_u16
 
-      def initialize()
+      def initialize
       end
 
       def id
@@ -561,7 +544,7 @@ module AMQP::Protocol
       end
 
       def self.decode(io)
-        CloseOk.new()
+        CloseOk.new
       end
 
       def encode(io)
@@ -614,7 +597,7 @@ module AMQP::Protocol
     class Unblocked < Method
       INDEX = 61_u16
 
-      def initialize()
+      def initialize
       end
 
       def id
@@ -630,7 +613,7 @@ module AMQP::Protocol
       end
 
       def self.decode(io)
-        Unblocked.new()
+        Unblocked.new
       end
 
       def encode(io)
@@ -641,7 +624,6 @@ module AMQP::Protocol
         io << ")"
       end
     end
-
   end
 
   module Channel
@@ -864,7 +846,7 @@ module AMQP::Protocol
     class CloseOk < Method
       INDEX = 41_u16
 
-      def initialize()
+      def initialize
       end
 
       def id
@@ -880,7 +862,7 @@ module AMQP::Protocol
       end
 
       def self.decode(io)
-        CloseOk.new()
+        CloseOk.new
       end
 
       def encode(io)
@@ -891,7 +873,6 @@ module AMQP::Protocol
         io << ")"
       end
     end
-
   end
 
   module Exchange
@@ -985,7 +966,7 @@ module AMQP::Protocol
     class DeclareOk < Method
       INDEX = 11_u16
 
-      def initialize()
+      def initialize
       end
 
       def id
@@ -1001,7 +982,7 @@ module AMQP::Protocol
       end
 
       def self.decode(io)
-        DeclareOk.new()
+        DeclareOk.new
       end
 
       def encode(io)
@@ -1074,7 +1055,7 @@ module AMQP::Protocol
     class DeleteOk < Method
       INDEX = 21_u16
 
-      def initialize()
+      def initialize
       end
 
       def id
@@ -1090,7 +1071,7 @@ module AMQP::Protocol
       end
 
       def self.decode(io)
-        DeleteOk.new()
+        DeleteOk.new
       end
 
       def encode(io)
@@ -1176,7 +1157,7 @@ module AMQP::Protocol
     class BindOk < Method
       INDEX = 31_u16
 
-      def initialize()
+      def initialize
       end
 
       def id
@@ -1192,7 +1173,7 @@ module AMQP::Protocol
       end
 
       def self.decode(io)
-        BindOk.new()
+        BindOk.new
       end
 
       def encode(io)
@@ -1278,7 +1259,7 @@ module AMQP::Protocol
     class UnbindOk < Method
       INDEX = 51_u16
 
-      def initialize()
+      def initialize
       end
 
       def id
@@ -1294,7 +1275,7 @@ module AMQP::Protocol
       end
 
       def self.decode(io)
-        UnbindOk.new()
+        UnbindOk.new
       end
 
       def encode(io)
@@ -1305,7 +1286,6 @@ module AMQP::Protocol
         io << ")"
       end
     end
-
   end
 
   module Queue
@@ -1514,7 +1494,7 @@ module AMQP::Protocol
     class BindOk < Method
       INDEX = 21_u16
 
-      def initialize()
+      def initialize
       end
 
       def id
@@ -1530,7 +1510,7 @@ module AMQP::Protocol
       end
 
       def self.decode(io)
-        BindOk.new()
+        BindOk.new
       end
 
       def encode(io)
@@ -1607,7 +1587,7 @@ module AMQP::Protocol
     class UnbindOk < Method
       INDEX = 51_u16
 
-      def initialize()
+      def initialize
       end
 
       def id
@@ -1623,7 +1603,7 @@ module AMQP::Protocol
       end
 
       def self.decode(io)
-        UnbindOk.new()
+        UnbindOk.new
       end
 
       def encode(io)
@@ -1826,7 +1806,6 @@ module AMQP::Protocol
         io << ")"
       end
     end
-
   end
 
   module Basic
@@ -1888,7 +1867,7 @@ module AMQP::Protocol
     class QosOk < Method
       INDEX = 11_u16
 
-      def initialize()
+      def initialize
       end
 
       def id
@@ -1904,7 +1883,7 @@ module AMQP::Protocol
       end
 
       def self.decode(io)
-        QosOk.new()
+        QosOk.new
       end
 
       def encode(io)
@@ -2691,7 +2670,7 @@ module AMQP::Protocol
     class RecoverOk < Method
       INDEX = 111_u16
 
-      def initialize()
+      def initialize
       end
 
       def id
@@ -2707,7 +2686,7 @@ module AMQP::Protocol
       end
 
       def self.decode(io)
-        RecoverOk.new()
+        RecoverOk.new
       end
 
       def encode(io)
@@ -2770,7 +2749,6 @@ module AMQP::Protocol
         io << ")"
       end
     end
-
   end
 
   module Tx
@@ -2779,7 +2757,7 @@ module AMQP::Protocol
     class Select < Method
       INDEX = 10_u16
 
-      def initialize()
+      def initialize
       end
 
       def id
@@ -2795,7 +2773,7 @@ module AMQP::Protocol
       end
 
       def self.decode(io)
-        Select.new()
+        Select.new
       end
 
       def encode(io)
@@ -2810,7 +2788,7 @@ module AMQP::Protocol
     class SelectOk < Method
       INDEX = 11_u16
 
-      def initialize()
+      def initialize
       end
 
       def id
@@ -2826,7 +2804,7 @@ module AMQP::Protocol
       end
 
       def self.decode(io)
-        SelectOk.new()
+        SelectOk.new
       end
 
       def encode(io)
@@ -2841,7 +2819,7 @@ module AMQP::Protocol
     class Commit < Method
       INDEX = 20_u16
 
-      def initialize()
+      def initialize
       end
 
       def id
@@ -2857,7 +2835,7 @@ module AMQP::Protocol
       end
 
       def self.decode(io)
-        Commit.new()
+        Commit.new
       end
 
       def encode(io)
@@ -2872,7 +2850,7 @@ module AMQP::Protocol
     class CommitOk < Method
       INDEX = 21_u16
 
-      def initialize()
+      def initialize
       end
 
       def id
@@ -2888,7 +2866,7 @@ module AMQP::Protocol
       end
 
       def self.decode(io)
-        CommitOk.new()
+        CommitOk.new
       end
 
       def encode(io)
@@ -2903,7 +2881,7 @@ module AMQP::Protocol
     class Rollback < Method
       INDEX = 30_u16
 
-      def initialize()
+      def initialize
       end
 
       def id
@@ -2919,7 +2897,7 @@ module AMQP::Protocol
       end
 
       def self.decode(io)
-        Rollback.new()
+        Rollback.new
       end
 
       def encode(io)
@@ -2934,7 +2912,7 @@ module AMQP::Protocol
     class RollbackOk < Method
       INDEX = 31_u16
 
-      def initialize()
+      def initialize
       end
 
       def id
@@ -2950,7 +2928,7 @@ module AMQP::Protocol
       end
 
       def self.decode(io)
-        RollbackOk.new()
+        RollbackOk.new
       end
 
       def encode(io)
@@ -2961,7 +2939,6 @@ module AMQP::Protocol
         io << ")"
       end
     end
-
   end
 
   module Confirm
@@ -3011,7 +2988,7 @@ module AMQP::Protocol
     class SelectOk < Method
       INDEX = 11_u16
 
-      def initialize()
+      def initialize
       end
 
       def id
@@ -3027,7 +3004,7 @@ module AMQP::Protocol
       end
 
       def self.decode(io)
-        SelectOk.new()
+        SelectOk.new
       end
 
       def encode(io)
@@ -3038,7 +3015,6 @@ module AMQP::Protocol
         io << ")"
       end
     end
-
   end
 
   class Method

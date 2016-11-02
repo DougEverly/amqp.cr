@@ -5,7 +5,7 @@ module AMQP
     def initialize(@mechanism : String)
     end
 
-    abstract def response(username, password): String
+    abstract def response(username, password) : String
 
     def self.get_authenticator(mechanisms)
       unless mechanisms
