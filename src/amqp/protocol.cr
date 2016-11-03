@@ -396,7 +396,7 @@ module AMQP::Protocol
 
     macro read_typed(type)
       buf = uninitialized {{type}}
-      slice = Slice.new(pointerof(buf) as Pointer(UInt8), sizeof(typeof(buf)))
+      slice = Slice.new(pointerof(buf).as(Pointer(UInt8)), sizeof(typeof(buf)))
       unless read(slice)
         return nil
       end
